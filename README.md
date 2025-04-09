@@ -58,3 +58,27 @@ kubectl annotate serviceaccount composer \
     --namespace k8-executor \
     iam.gke.io/gcp-service-account=composer@rocketech-de-pgcp-sandbox.iam.gserviceaccount.com
 ```
+
+Danel version
+```
+gcloud projects add-iam-policy-binding projects/$PROJECT_ID \
+    --role=roles/iam.workloadIdentityUser \
+    --member=principal://iam.googleapis.com/projects/$PROJECT_NUMBER/locations/global/workloadIdentityPools/$PROJECT_ID.svc.id.goog/subject/ns/$NAMESPACE/sa/$KSA_NAME \
+    --condition=None
+
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+    --member "serviceAccount:dbt-jobs-user@$PROJECT_ID.iam.gserviceaccount.com" \
+    --role "roles/iam.workloadIdentityUser"
+
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+    --member "serviceAccount:dbt-jobs-user@$PROJECT_ID.iam.gserviceaccount.com" \
+    --role "roles/container.clusterViewer"
+
+gcloud iam service-accounts add-iam-policy-binding dbt-jobs-user@$PROJECT_ID.iam.gserviceaccount.com \
+    --role roles/iam.workloadIdentityUser \
+    --member "serviceAccount:$PROJECT_ID.svc.id.goog[$NAMESPACE/$KSA_NAME]"
+
+kubectl annotate serviceaccount $KSA_NAME \
+    --namespace $NAMESPACE \
+    iam.gke.io/gcp-service-account=dbt-jobs-user@$PROJECT_ID.iam.gserviceaccount.com
+```

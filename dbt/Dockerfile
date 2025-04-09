@@ -1,4 +1,4 @@
-FROM python:3.8.13
+FROM --platform=linux/amd64 python:3.8.13
 
 ARG DBT_HOME=/home/dbtuser
 

@@ -2,12 +2,12 @@ dbt_k8_demo:
   outputs:
     default:
       type: bigquery
-      dataset: dbt_k8_demo
+      dataset: dbt_k8_demo # CHANGE THIS
       fixed_retries: 1
       location: europe-west2
       method: oauth
       priority: interactive
-      project: rocketech-de-pgcp-sandbox
+      project: dbt-playground-456208 # CHANGE THIS
       threads: 5
       timeout_seconds: 300
-      impersonate_service_account: dbt-user@rocketech-de-pgcp-sandbox.iam.gserviceaccount.com
+      impersonate_service_account: dbt-jobs-user@dbt-playground-456208.iam.gserviceaccount.com
