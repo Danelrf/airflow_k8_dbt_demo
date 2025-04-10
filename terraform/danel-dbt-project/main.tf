@@ -34,8 +34,21 @@ resource "google_service_account_iam_member" "dbt_jobs_service_account" {
   provider = google-beta
   service_account_id = google_service_account.dbt_jobs_service_account.name
   role = "roles/composer.ServiceAgentV2Ext"
-  member = "serviceAccount:service-667538242109@cloudcomposer-accounts.iam.gserviceaccount.com"
+  member = "serviceAccount:service-30271547565@cloudcomposer-accounts.iam.gserviceaccount.com"
 }
+
+resource "google_service_account_iam_member" "dbt_jobs_service_account_token_creator" {
+  provider = google-beta
+  service_account_id = google_service_account.dbt_jobs_service_account.name
+  role = "roles/iam.serviceAccountTokenCreator"
+  member = "user:danel.ramirez.flores@gmail.com"
+}
+
+# # Grant service account token creator role to user
+# echo "Granting service account token creator role to user..."
+# gcloud iam service-accounts add-iam-policy-binding ${SERVICE_ACCOUNT_EMAIL} \
+#     --member="user:${USER_EMAIL}" \
+#     --role="roles/iam.serviceAccountTokenCreator"
 
 # Add BigQuery permissions to the service account
 resource "google_project_iam_member" "dbt_bigquery_user" {
@@ -76,4 +89,26 @@ resource "google_bigquery_dataset" "dbt_dataset" {
   description   = "Dataset for DBT transformations"
   location      = var.region
   project       = var.project_id 
+}
+
+# Create new storage bucket in the US multi-region
+# with coldline storage
+resource "random_id" "bucket_prefix" {
+  byte_length = 8
+}
+
+resource "google_storage_bucket" "static" {
+  name          = "${random_id.bucket_prefix.hex}-dbt-data"
+  project       = var.project_id
+  location      = "EU"
+  storage_class = "STANDARD"
+
+  uniform_bucket_level_access = true
+}
+
+resource "google_storage_bucket_iam_binding" "grant_storage_editor_to_bucket" {
+  bucket        = google_storage_bucket.static.name
+  role          = "roles/storage.admin"
+  members        = ["user:danel.ramirez.flores@gmail.com", format("serviceAccount:%s", google_service_account.dbt_jobs_service_account.email)]
+
 }

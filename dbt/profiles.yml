@@ -7,7 +7,7 @@ dbt_k8_demo:
       location: europe-west2
       method: oauth
       priority: interactive
-      project: dbt-playground-456208 # CHANGE THIS
+      project: danel-dbt-project # CHANGE THIS
       threads: 5
       timeout_seconds: 300
-      impersonate_service_account: dbt-jobs-user@dbt-playground-456208.iam.gserviceaccount.com
+      impersonate_service_account: dbt-jobs-user@danel-dbt-project.iam.gserviceaccount.com

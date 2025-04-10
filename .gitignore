@@ -1,2 +1,14 @@
 .idea
 .venv
+terraform/danel-dbt-project/.terraform/
+terraform/danel-dbt-project/*.tfstate
+terraform/danel-dbt-project/*.tfstate.backup
+
+terraform/danel-gh-actions/.terraform/
+terraform/danel-gh-actions/*.tfstate
+terraform/danel-gh-actions/*.tfstate.backup
+# terraform/.terraform.lock.hcl
+dbt/raw_data/
+
+desc.yml
+output.txt

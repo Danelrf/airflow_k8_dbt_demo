@@ -1,4 +1,4 @@
-project_id = "dbt-playground-456208"
+project_id = "danel-dbt-project"
 region     = "europe-west2"
 zone       = "europe-west2-a"
 environment = "dev"
