@@ -5,7 +5,7 @@ on: [push]
 permissions:
   id-token: write # This is required for requesting the JWT
   contents: read  # This is required for actions/checkout
-  
+
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
@@ -31,5 +31,5 @@ jobs:
           workload_identity_provider: 'projects/30271547565/locations/global/workloadIdentityPools/github-actions-cicd/providers/github'
       - uses: 'google-github-actions/upload-cloud-storage@v2'
         with:
-          path: './requirements.txt'
-          destination: '97fcd7142abf3b47-dbt-data'
+          path: './dbt/raw_data'
+          destination: '97fcd7142abf3b47-dbt-data/sources/'
