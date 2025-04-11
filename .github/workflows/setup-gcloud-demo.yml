@@ -1,6 +1,11 @@
 name: Gcloud File Upload
 run-name: ${{ github.actor }} is uploading aa file!
 on: [push]
+
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read  # This is required for actions/checkout
+  
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
