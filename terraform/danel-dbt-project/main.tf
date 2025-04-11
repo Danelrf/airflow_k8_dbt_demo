@@ -109,6 +109,9 @@ resource "google_storage_bucket" "static" {
 resource "google_storage_bucket_iam_binding" "grant_storage_editor_to_bucket" {
   bucket        = google_storage_bucket.static.name
   role          = "roles/storage.admin"
-  members        = ["user:danel.ramirez.flores@gmail.com", format("serviceAccount:%s", google_service_account.dbt_jobs_service_account.email)]
+  members        = [
+    "user:danel.ramirez.flores@gmail.com", 
+    format("serviceAccount:%s", google_service_account.dbt_jobs_service_account.email),
+    format("principalSet://iam.googleapis.com/projects/30271547565/locations/global/workloadIdentityPools/github-actions-cicd/attribute.repository/Danelrf/airflow_k8_dbt_demo")]
 
 }
